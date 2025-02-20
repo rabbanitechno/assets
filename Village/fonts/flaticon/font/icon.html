@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flaticon Icons Preview</title>
+    <link rel="stylesheet" href="flaticon.css"> <!-- Pastikan ini mengarah ke CSS yang benar -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 120px;
+            text-align: center;
+            background: #f9f9f9;
+        }
+        .icon-box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Flaticon Icons Preview (Semua Ikon)</h2>
+    <div class="icon-container" id="iconContainer">
+        <!-- Ikon akan dimasukkan secara otomatis di sini -->
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mendapatkan semua stylesheet yang ada di dokumen
+            let styleSheets = document.styleSheets;
+            let iconContainer = document.getElementById("iconContainer");
+            let iconClasses = [];
+
+            // Loop melalui semua stylesheet yang ada
+            for (let i = 0; i < styleSheets.length; i++) {
+                try {
+                    let rules = styleSheets[i].cssRules || styleSheets[i].rules;
+                    if (!rules) continue;
+
+                    // Loop melalui semua aturan CSS
+                    for (let j = 0; j < rules.length; j++) {
+                        let rule = rules[j];
+                        if (rule.selectorText && rule.selectorText.startsWith(".flaticon-")) {
+                            let className = rule.selectorText.split(":")[0].trim().replace(".", "");
+                            iconClasses.push(className);
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Tidak bisa membaca stylesheet:", e);
+                }
+            }
+
+            // Menampilkan semua ikon di halaman
+            iconClasses.forEach(icon => {
+                let div = document.createElement("div");
+                div.classList.add("icon-box");
+                div.innerHTML = `<i class="${icon}"></i><p>${icon}</p>`;
+                iconContainer.appendChild(div);
+            });
+        });
+    </script>
+
+</body>
+</html>
